@@ -7,9 +7,7 @@ const mongoose = require("mongoose");
 const insertPhoto = async (req, res) => {
     const { title } = req.body;
     const image = req.file.filename;
-
     const reqUser = req.user;
-
     const user = await User.findById(reqUser._id);
 
     // Create a photo
@@ -33,7 +31,7 @@ const insertPhoto = async (req, res) => {
 
 // Remove a photo from DB
 
-const deletePhoto = async(req, res) => {
+const deletePhoto = async (req, res) => {
     const { id } = req.params;
     const reqUser = req.user;
 
@@ -58,16 +56,22 @@ const deletePhoto = async(req, res) => {
     } catch (error) {
         // ID invalid
         console.error("Erro ao inserir foto:", error);
-        res.status(404).json({errors: ["Foto não encontrada."], });
+        res.status(404).json({ errors: ["Foto não encontrada."], });
         return;
     };
 
 };
 
 // Get all photos
-const getAllPhotos = async(req,res) => {
+const getAllPhotos = async (req, res) => {
     const photos = await Photo.find({}).sort([["createdAt", -1]]).exec();
+    return res.status(200).json(photos);
+};
 
+// Get user photos
+const getUserPhotos = async (req, res) => {
+    const { id } = req.params;
+    const photos = await Photo.find({ userId: id }).sort([["createdAt", -1]]).exec();
     return res.status(200).json(photos);
 }
 
@@ -75,4 +79,5 @@ module.exports = {
     insertPhoto,
     deletePhoto,
     getAllPhotos,
+    getUserPhotos,
 };

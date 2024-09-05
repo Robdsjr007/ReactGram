@@ -26,23 +26,22 @@ const register = async (req, res) => {
         return
     }
 
-    //Function generate password hash
+    // Function to generate password hash
     const generateHash = async (password) => {
-        const salt = await bcrypt.genSalt()
-        const passwordHash = await bcrypt.hash(password, salt)
-        return passwordHash
+        const salt = await bcrypt.genSalt();
+        const passwordHash = await bcrypt.hash(password, salt);
+        return passwordHash;
     }
 
-
-
-    generateHash(password);
+    const passwordHash = await generateHash(password);
 
     // Create user
     const newUser = await User.create({
         name,
         email,
         password: passwordHash
-    })
+    });
+
 
     // if user was created succesfuly
     if (!newUser) {
@@ -57,7 +56,7 @@ const register = async (req, res) => {
 };
 
 // Sign user in
-const login = async (req, res) => {
+const login = async(req, res) => {
     const { email, password } = req.body
 
     const user = await User.findOne({ email })
