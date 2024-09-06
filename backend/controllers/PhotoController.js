@@ -102,9 +102,9 @@ const getPhotoById = async (req, res) => {
 };
 
 // Update a photo 
-const updatePhoto = async(req, res) => {
-    const {id} = req.params;
-    const {title} = req.body;
+const updatePhoto = async (req, res) => {
+    const { id } = req.params;
+    const { title } = req.body;
 
     const reqUser = req.user;
 
@@ -116,27 +116,27 @@ const updatePhoto = async(req, res) => {
     // Check if photo belongs to user
     if (!checkIfPhotoBelongsToUser(photo, reqUser, res)) return;
 
-    if(title) {
+    if (title) {
         photo.title = title;
     }
 
     await photo.save();
 
-    res.status(200).json({photo, message: "Foto atualizada com sucesso!"});
+    res.status(200).json({ photo, message: "Foto atualizada com sucesso!" });
 
 };
 
 // Like functionality
-const likePhoto = async(req, res) => {
-    const {id} = req.params;
+const likePhoto = async (req, res) => {
+    const { id } = req.params;
     const reqUser = req.user;
     const photo = await Photo.findById(id);
 
     // Check if photo exists
     if (!checkIfPhotoExists(photo, res)) return;
-    
+
     // Check if user already liked the photo
-    if(photo.likes.includes(reqUser._id)) {
+    if (photo.likes.includes(reqUser._id)) {
         res.status(422).json({ errors: ["Você já curtiu a foto."] });
         return;
     }
@@ -149,6 +149,38 @@ const likePhoto = async(req, res) => {
     res.status(200).json({ photoId: id, userId: reqUser._id, message: "A foto foi curtida." });
 };
 
+// Comment Funcionality
+const commentPhoto = async (req, res) => {
+    const { id } = req.params;
+    const { comment } = req.body;
+
+    const reqUser = req.user;
+
+    const user = await User.findById(reqUser.id);
+
+    const photo = await Photo.findById(id);
+
+    // Check if photo exists
+    if (!checkIfPhotoExists(photo, res)) return;
+
+    // Put comment in the array comments
+    const userComment = {
+        comment,
+        userName: user.name,
+        userImage: user.profileImage,
+        userId: user._id
+    };
+
+    photo.comments.push(userComment);
+
+    await photo.save();
+
+    res.status(200).json({
+        comment: userComment,
+        message: "O comentário foi adicionado com sucesso!",
+    });
+};
+
 module.exports = {
     insertPhoto,
     deletePhoto,
@@ -157,4 +189,5 @@ module.exports = {
     getPhotoById,
     updatePhoto,
     likePhoto,
+    commentPhoto,
 };
