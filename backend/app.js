@@ -30,7 +30,7 @@ const startServer = (port) => {
   }).on('error', (err) => {
     if (err.code === 'EADDRINUSE') {
       console.log(`Porta ${port} está em uso. Tentando na porta ${port + 1}...`);
-      startServer(port + 1); // Tente a próxima porta
+      startServer(port + 1); // Try the next door
     } else {
       console.error('Erro ao iniciar o servidor:', err);
     }

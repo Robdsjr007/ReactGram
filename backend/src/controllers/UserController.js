@@ -47,10 +47,7 @@ const register = async (req, res) => {
         return
     }
 
-    res.status(201).json({
-        _id: newUser._id,
-        token: generateToken(newUser._id),
-    });
+    res.status(201).json({_id: newUser._id, token: generateToken(newUser._id)});
 };
 
 // Sign user in
