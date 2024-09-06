@@ -1,0 +1,28 @@
+@use './variables'
+
+@mixin flexContent($display, $justify, $align)
+    display: $display
+    justify-content: $justify
+    align-items: $align
+
+// @mixin fontFace($fontname, $weightname) 
+//   @font-face 
+//     font-family: $fontname + '-' + $weightname
+//     src: url(variables.$fontpath + $fontname + '/' + $fontname + '-' + $weightname + ".ttf")
+    
+// @mixin fontHeading($family, $size, $weight)
+//     font-family: $family
+//     font-size: $size
+//     font-weight: $weight
+    
+@mixin widthAndHeight($width, $height)
+    width: $width
+    height: $height
+
+@mixin MaxWidthAndMaxHeight($maxwidth, $maxheight)
+    max-width: $maxwidth
+    max-height: $maxheight
+
+@mixin MinWidthAndMinHeight($minwidth, $minheight)
+    min-width: $minwidth
+    min-height: $minheight
