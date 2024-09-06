@@ -1,8 +1,6 @@
 const Photo = require("../models/Photo");
 const User = require("../models/User");
 
-const mongoose = require("mongoose");
-
 // Function check if photo exists
 const checkIfPhotoExists = (photo, res) => {
     if (!photo) {
