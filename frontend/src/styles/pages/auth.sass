@@ -1,0 +1,31 @@
+@use '../variables'
+@use '../mixins'
+
+#login, #register
+    border: 1px solid variables.$border-color
+    background-color: #000
+    padding: 1.5em 2em
+    @include mixins.MaxWidthAndMaxHeight(33%, auto)
+    margin: 2em auto
+
+    form
+        padding-bottom: 1.5em
+        margin-bottom: 1.5em
+        border-bottom: 1px solid variables.$border-color
+
+    h2
+        text-align: center
+        font-size: 2.1em
+        margin-top: 0
+    
+    .subtitle
+        font-weight: bold
+        color: #999
+        margin-bottom: 1.5em
+
+    p
+        text-align: center
+    
+        a
+            font-weight: bold
+            color: variables.$color-blue

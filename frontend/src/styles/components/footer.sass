@@ -1,0 +1,9 @@
+@use '../variables'
+@use '../mixins'
+
+#footer
+    @include mixins.flexContent(flex, center, center)
+    @include mixins.widthAndHeight(auto, 200px)
+    border-top: 1px solid variables.$border-color
+    background-color: variables.$bg-black
+    

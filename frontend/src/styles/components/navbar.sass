@@ -1,0 +1,38 @@
+@use '../variables'
+@use '../mixins'
+
+#nav
+    @include mixins.flexContent(flex, space-between, center)
+    background-color: #000
+    border-bottom: 1px solid variables.$border-color
+    padding: 0.1em 1em
+
+    #search-form
+        position: relative
+        @include mixins.widthAndHeight(20%, auto)
+
+        svg
+            position: absolute
+            top: 10px
+            left: 9px
+
+        input
+            padding-left: 2.5em
+            border: none
+            border-radius: 2px
+            @include mixins.widthAndHeight(100%, auto)
+            margin: 0
+    
+    #nav-links
+        @include mixins.flexContent(flex, flex-start, center)
+
+        li
+            margin-right: 1em
+
+        span
+            cursor: pointer
+
+        svg
+            font-size: 1.5em
+        
+            
