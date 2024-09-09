@@ -7,6 +7,9 @@ import { useAuth } from "../hooks/useAuth";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
+// redux
+import {logout, reset} from "../slices/authSlice";
+
 // estilo
 import '../styles/components/navbar.sass'
 
@@ -14,6 +17,16 @@ const Navbar = () => {
     const { auth } = useAuth();
     const { user } = useSelector((state) => state.auth);
 
+    const navigate = useNavigate();
+
+    const dispath = useDispatch()
+
+    const handleLogout = () => {
+        dispath(logout());
+        dispath(reset());
+
+        navigate("/login");
+    }
 
     return (
 
@@ -45,7 +58,7 @@ const Navbar = () => {
                             </NavLink>
                         </li>
                         <li>
-                            <span>Sair</span>
+                            <span onClick={handleLogout}>Sair</span>
                         </li>
                     </>
                 ) : (

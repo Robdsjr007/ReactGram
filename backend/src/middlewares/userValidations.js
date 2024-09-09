@@ -44,10 +44,10 @@ const loginValidation = () => {
         body("password")
             .isString()
             .withMessage("A senha é obrigatória")
-            .isAlphanumeric()
-            .withMessage("A senha precisa conter letras e números")
             .isLength({min: 5})
-            .withMessage("A senha precisa ter no mínimo 3 caracteres."),
+            .withMessage("A senha precisa ter no mínimo 5 caracteres.")
+            .isAlphanumeric()
+            .withMessage("A senha precisa conter letras e números"),
     ];
 };
 
@@ -61,7 +61,9 @@ const userUpdateValidation = () => {
         body("password")
             .optional()
             .isLength({min:5})
-            .withMessage("A senha precisa ter no mínimo 5 caracteres"),
+            .withMessage("A senha precisa ter no mínimo 5 caracteres")
+            .isAlphanumeric()
+            .withMessage("A senha precisa conter letras e números"),
     ]
 }
 
