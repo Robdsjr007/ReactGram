@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import Message from '../../components/Message';
 
 // estilo
 import '../../styles/pages/auth.sass'
@@ -6,12 +7,20 @@ import '../../styles/pages/register.sass'
 
 // Hooks
 import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
+// Redux
+import { register, reset } from '../../slices/authSlice';
 
 const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  const dispath = useDispatch()
+
+  const {loading, error} = useSelector((state) => state.auth);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -23,8 +32,16 @@ const Register = () => {
       confirmPassword
     }
 
+    dispath(register(user))
+  
     console.log(user);
+  
   };
+
+// Clean all auth states
+  useEffect(() => {
+    dispath(reset());
+  }, [dispath]);
 
   return (
     <div id='register'>
@@ -35,7 +52,9 @@ const Register = () => {
         <input type="email" placeholder='Email' onChange={(e) => setEmail(e.target.value)} value={email || ""}/>
         <input type="password" placeholder='Senha' onChange={(e) => setPassword(e.target.value)} value={password || ""}/>
         <input type="password" placeholder='Confirmar senha' onChange={(e) => setConfirmPassword(e.target.value)} value={confirmPassword || ""}/>
-        <button type="submit">Cadastrar</button>
+        {!loading && <button type="submit">Cadastrar</button>}
+        {loading && <button type="submit" disabled>Aguarde...</button>}
+        {error && <Message msg={error} type="error"/>}
       </form>
       <p>Já tem conta? <Link to="/login">Clique aqui.</Link></p>
     </div>
