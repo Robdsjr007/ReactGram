@@ -15,7 +15,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const dispath = useDispatch();
+  const dispatch = useDispatch();
 
   const {loading, error} = useSelector((state) => state.auth);
   
@@ -28,13 +28,13 @@ const Login = () => {
       password,
     };
 
-    dispath(login(user));
+    dispatch(login(user));
   };
 
   // clear all auth states
   useEffect(() => {
-    dispath(reset())
-  }, [dispath])
+    dispatch(reset())
+  }, [dispatch])
 
   return (
     <div id='login'>

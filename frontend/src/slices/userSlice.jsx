@@ -11,8 +11,10 @@ const initialState = {
 
 // Get user details
 export const profile = createAsyncThunk("user/profile", async (user, thunkAPI) => {
-    const token = thunkAPI.getState().auth.user.token
-    const data = await userService.profile(user, token)
+    const token = thunkAPI.getState().auth.user.token;
+    // console.log("Token:", token); // Adicione este console.log
+    const data = await userService.profile(user, token);
+    // console.log("Profile data:", data); // Adicione este console.log
     return data;
 });
 
@@ -24,7 +26,7 @@ export const userSlice = createSlice({
             state.message = null;
         },
     },
-    extraReducers: (build) => {
+    extraReducers: (builder) => {
         builder
             .addCase(profile.pending, (state) => {
                 state.loading = true;
@@ -35,6 +37,13 @@ export const userSlice = createSlice({
                 state.success = true;
                 state.error = null;
                 state.user = action.payload;
+                // console.log("Fulfilled action payload:", action.payload); // Adicione este console.log
+            })
+            .addCase(profile.rejected, (state, action) => {
+                state.loading = false;
+                state.error = true;
+                state.message = action.error.message;
+                // console.log("Rejected action error:", action.error); // Adicione este console.log
             });
     },
 });

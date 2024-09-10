@@ -18,7 +18,7 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const dispath = useDispatch()
+  const dispatch = useDispatch()
 
   const {loading, error} = useSelector((state) => state.auth);
 
@@ -32,7 +32,7 @@ const Register = () => {
       confirmPassword
     }
 
-    dispath(register(user))
+    dispatch(register(user))
   
     console.log(user);
   
@@ -40,8 +40,8 @@ const Register = () => {
 
 // Clean all auth states
   useEffect(() => {
-    dispath(reset());
-  }, [dispath]);
+    dispatch(reset());
+  }, [dispatch]);
 
   return (
     <div id='register'>
