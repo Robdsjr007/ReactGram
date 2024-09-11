@@ -20,7 +20,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 // Upload directory
-app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
+app.use("/uploads", express.static(path.join(__dirname, "/src/uploads")));
 
 // DB connection
 require("./config/db.js");

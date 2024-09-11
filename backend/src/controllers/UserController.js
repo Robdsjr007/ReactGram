@@ -12,6 +12,13 @@ const generateToken = (id) => {
     });
 };
 
+// Function to generate password hash
+const generateHash = async (password) => {
+    const salt = await bcrypt.genSalt();
+    const passwordHash = await bcrypt.hash(password, salt);
+    return passwordHash;
+};
+
 // Register user and sign in
 const register = async (req, res) => {
     const { name, email, password } = req.body
@@ -24,13 +31,6 @@ const register = async (req, res) => {
         return
     }
 
-    // Function to generate password hash
-    const generateHash = async (password) => {
-        const salt = await bcrypt.genSalt();
-        const passwordHash = await bcrypt.hash(password, salt);
-        return passwordHash;
-    }
-
     const passwordHash = await generateHash(password);
 
     // Create user
@@ -39,7 +39,6 @@ const register = async (req, res) => {
         email,
         password: passwordHash
     });
-
 
     // if user was created succesfuly
     if (!newUser) {
@@ -81,7 +80,7 @@ const getCurrentUser = async (req, res) => {
     res.status(200).json(user);
 }
 
-//update an user
+// Update a user
 const update = async (req, res) => {
     const { name, password, bio } = req.body;
 
@@ -124,19 +123,17 @@ const getUserById = async (req, res) => {
     try {
         const user = await User.findById(id).select("-password");
 
-        // Does not pass to the second if the id is the same but not valid.
         if (!user) {
             res.status(404).json({ errors: ["Usuário não encontrado."] });
-            return
+            return;
         }
     } catch (error) {
-        // ID invalid
         res.status(404).json({ errors: ["Usuário não encontrado."] });
-        return
+        return;
     }
 
     res.status(200).json(user);
-}
+};
 
 module.exports = {
     register,
