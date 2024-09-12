@@ -1,7 +1,7 @@
 import { uploads } from '../../utils/config';
 
 // estilo
-import '../../styles/pages/editProfile.sass'
+import './editProfile.sass'
 
 // Hooks
 import { useEffect, useState } from "react";
@@ -68,7 +68,7 @@ const Profile = () => {
 
     formData.append("user", userFormData);
 
-    await dispatch(updateProfile(formData));
+    dispatch(updateProfile(formData));
 
     setTimeout(() => {
       dispatch(resetMessage());

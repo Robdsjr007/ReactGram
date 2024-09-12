@@ -41,14 +41,12 @@ export const updateProfile = createAsyncThunk(
 );
 
 // Get user details
-export const getUserDetails = createAsyncThunk(
-  "user/get",
-  async (id, thunkAPI) => {
-    const token = thunkAPI.getState().auth.user.token;
+export const getUserDetails = createAsyncThunk("user/get", async (id, thunkAPI) => {
+    // const token = thunkAPI.getState().auth.user.token;
 
-    const data = await userService.getUserDetails(id, token);
+    const data = await userService.getUserDetails(id); //token
 
-    console.log(data);
+    // console.log(data);
 
     return data;
   }

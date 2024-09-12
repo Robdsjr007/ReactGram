@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import Message from '../../components/Message';
 
 // estilos
-import '../../styles/pages/auth.sass'
+import './auth.sass'
 
 // Hooks
 import { useEffect, useState } from 'react';
