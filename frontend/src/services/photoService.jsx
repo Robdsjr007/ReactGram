@@ -16,13 +16,12 @@ const publishPhoto = async(data, token) => {
 };
 
 // Get user photos
-const getUserPhotos = async(id, token) => {
+const getUserPhotos = async (id, token) => {
     const config = requestConfig("GET", null, token);
-
     try {
-        const res = await fetch(api + "/photos/user" + id, config)
+      const res = await fetch(api + "/photos/user/" + id, config)
             .then((res) => res.json())
-            .catch((err) => err);
+            .catch((err) => console.error("Erro na requisiçãp:", err));
         return res;
     } catch (error) {
         console.log("Erro: ", error)

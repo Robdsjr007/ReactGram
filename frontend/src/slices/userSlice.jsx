@@ -34,7 +34,7 @@ export const updateProfile = createAsyncThunk(
       return thunkAPI.rejectWithValue(data.errors[0]);
     }
 
-    console.log(data);
+    // console.log(data);
 
     return data;
   }

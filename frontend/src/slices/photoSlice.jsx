@@ -24,9 +24,14 @@ export const publishPhoto = createAsyncThunk("photo/publish", async (photo, thun
 });
 
 // Get user photos
-export const getUserPhotos = createAsyncThunk("photo/userphotos", async(id, thunkAPI) => {
-    const token = thunkAPI.getState().atuh.user.token;
+export const getUserPhotos = createAsyncThunk("photo/userphotos", async (id, thunkAPI) => {
+    const token = thunkAPI.getState().auth.user.token;
     const data = await photoService.getUserPhotos(id, token);
+
+    // check for errors
+    if (data.errors) {
+        return console.log("Erro ao renderizar: ", data.errors[0]);
+    }
 
     return data;
 });

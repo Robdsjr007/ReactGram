@@ -15,7 +15,7 @@ import { useParams } from 'react-router-dom';
 
 // Redux
 import { getUserDetails } from '../../slices/userSlice';
-import { publishPhoto, resetMessage } from '../../slices/photoSlice';
+import { publishPhoto, resetMessage, getUserPhotos } from '../../slices/photoSlice';
 
 const Profile = () => {
     const { id } = useParams();
@@ -24,7 +24,7 @@ const Profile = () => {
 
     const { user, loading } = useSelector((state) => state.user);
     const { user: userAuth } = useSelector((state) => state.auth);
-    const {photos, loading: loadingPhoto, message: messagePhoto, error: errorPhoto} = useSelector((state) => state.photo);
+    const { photos, loading: loadingPhoto, message: messagePhoto, error: errorPhoto } = useSelector((state) => state.photo);
 
     const [title, setTitle] = useState("");
     const [image, setImage] = useState("");
@@ -36,13 +36,14 @@ const Profile = () => {
     // load user data
     useEffect(() => {
         dispatch(getUserDetails(id));
+        dispatch(getUserPhotos(id));
     }, [dispatch, id]);
-    
+
     const handleFile = (e) => {
         const image = e.target.files[0];
-    
+
         setImage(image);
-      };
+    };
 
     const submitHandle = (e) => {
         e.preventDefault();
@@ -57,17 +58,17 @@ const Profile = () => {
 
         const photoFormData = Object.keys(photoData).forEach((key) =>
             formData.append(key, photoData[key])
-          );
+        );
 
-          formData.append("photo", photoFormData);
+        formData.append("photo", photoFormData);
 
-          dispatch(publishPhoto(formData));
+        dispatch(publishPhoto(formData));
 
-          setTitle("");
+        setTitle("");
 
-          setTimeout(() => {
+        setTimeout(() => {
             dispatch(resetMessage());
-          }, 2000);
+        }, 2000);
     }
 
     if (loading) {
@@ -96,7 +97,7 @@ const Profile = () => {
                             </label>
                             <label>
                                 <span>Imagem:</span>
-                                <input type="file" onChange={handleFile}/>
+                                <input type="file" onChange={handleFile} />
                             </label>
                             {!loadingPhoto && <button type="submit">Postar</button>}
                             {loadingPhoto && <button type="submit" disabled>Aguarde...</button>}
@@ -106,6 +107,36 @@ const Profile = () => {
                     {messagePhoto && <Message msg={messagePhoto} type="success" />}
                 </>
             )}
+            <div className="user-photos">
+                <h2>Fotos publicadas:</h2>
+                <div className="photos-container">
+                    {photos &&
+                        photos.map((photo) => (
+                            <div className="photo" key={photo._id}>
+                                {photo.image && (
+                                    <img
+                                        src={`${uploads}/photos/${photo.image}`}
+                                        alt={photo.title}
+                                    />
+                                )}
+                                {id === userAuth._id ? (
+                                    <div className="actions">
+                                        <Link to={`/photos/${photo._id}`}>
+                                            <BsFillEyeFill />
+                                        </Link>
+                                        <BsPencilFill onClick={() => handleEdit(photo)} />
+                                        <BsXLg onClick={() => handleDelete(photo._id)} />
+                                    </div>
+                                ) : (
+                                    <Link className="btn" to={`/photos/${photo._id}`}>
+                                        Ver
+                                    </Link>
+                                )}
+                            </div>
+                        ))}
+                    {photos.length === 0 && <p>Ainda não há fotos publicadas...</p>}
+                </div>
+            </div>
         </div>
     )
 }

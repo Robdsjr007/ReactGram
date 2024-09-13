@@ -1,23 +1,2 @@
-@use './variables'
-@use './mixins'
-
-html
-    @include mixins.widthAndHeight(100% , 100%)
-
-body
-    @include mixins.widthAndHeight(100% , 100%)
-    overflow-x: hidden
-
-#root
-    @include mixins.MaxWidthAndMaxHeight(100vw, 100vh)
-
-.App 
-    @include mixins.widthAndHeight(100vw, 100vh)
-
 .container
-    @include mixins.flexContent(flex, center, flex-start)
-    flex-direction: column
-    @include mixins.widthAndHeight(100% , 100%)
-    
-
-    
+    min-height: 70vh
