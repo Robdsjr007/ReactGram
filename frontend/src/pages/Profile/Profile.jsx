@@ -15,7 +15,7 @@ import { useParams } from 'react-router-dom';
 
 // Redux
 import { getUserDetails } from '../../slices/userSlice';
-import { publishPhoto, resetMessage, getUserPhotos } from '../../slices/photoSlice';
+import { publishPhoto, resetMessage, getUserPhotos, deletePhoto } from '../../slices/photoSlice';
 
 const Profile = () => {
     const { id } = useParams();
@@ -45,6 +45,12 @@ const Profile = () => {
         setImage(image);
     };
 
+    const resetComponentMessage = () => {
+        setTimeout(() => {
+            dispatch(resetMessage());
+        }, 2000);
+    };
+
     const submitHandle = (e) => {
         e.preventDefault();
 
@@ -66,10 +72,14 @@ const Profile = () => {
 
         setTitle("");
 
-        setTimeout(() => {
-            dispatch(resetMessage());
-        }, 2000);
-    }
+        resetComponentMessage();
+    };
+
+    const handleDelete = (id) => {
+        dispatch(deletePhoto(id));
+
+        resetComponentMessage();
+    };
 
     if (loading) {
         return <p>Carregando...</p>

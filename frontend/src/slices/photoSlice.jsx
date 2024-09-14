@@ -12,7 +12,9 @@ const initialState = {
 
 // Publish user photo
 export const publishPhoto = createAsyncThunk("photo/publish", async (photo, thunkAPI) => {
+    
     const token = thunkAPI.getState().auth.user.token;
+    
     const data = await photoService.publishPhoto(photo, token);
 
     // check for erros
@@ -25,7 +27,9 @@ export const publishPhoto = createAsyncThunk("photo/publish", async (photo, thun
 
 // Get user photos
 export const getUserPhotos = createAsyncThunk("photo/userphotos", async (id, thunkAPI) => {
+    
     const token = thunkAPI.getState().auth.user.token;
+    
     const data = await photoService.getUserPhotos(id, token);
 
     // check for errors
@@ -35,6 +39,21 @@ export const getUserPhotos = createAsyncThunk("photo/userphotos", async (id, thu
 
     return data;
 });
+
+// Delete a photo
+export const deletePhoto = createAsyncThunk("photo/delete", async(id, thunkAPI) => {
+    
+    const token = thunkAPI.getState().auth.user.token;
+    
+    const data = await photoService.deletePhoto(id, token);
+    
+    // check for erros
+    if (data.errors) {
+        return thunkAPI.rejectWithValue(data.errors[0]);
+    }
+    
+    return data;
+}); 
 
 export const photoSlice = createSlice({
     name: "photo",
@@ -72,6 +91,24 @@ export const photoSlice = createSlice({
                 state.success = true;
                 state.error = null;
                 state.photos = action.payload;
+            })
+            .addCase(deletePhoto.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(deletePhoto.fulfilled, (state, action) => {
+                state.loading = false;
+                state.success = true;
+                state.error = null;
+                state.photos = state.photos.filter((photo) => {
+                    return photo._id !== action.payload.id;
+                })
+                state.message = action.payload.message;
+            })
+            .addCase(deletePhoto.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+                state.photo = {};
             })
     },
 });
