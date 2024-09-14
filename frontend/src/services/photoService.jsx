@@ -10,7 +10,7 @@ const publishPhoto = async(data, token) => {
             .catch((err) => err);
         return res;
     } catch (error) {
-        console.log("Erro: ", error.message);
+        console.log("Erro ao publicar photos: ", error.message);
     }
 
 };
@@ -24,7 +24,7 @@ const getUserPhotos = async (id, token) => {
             .catch((err) => console.error("Erro na requisiçãp:", err));
         return res;
     } catch (error) {
-        console.log("Erro: ", error)
+        console.log("Erro ao tentar obter dados: ", error)
     }
 }
 
@@ -42,10 +42,27 @@ const deletePhoto = async(id, token) => {
     }
 };
 
+// Update a photo 
+const updatePhoto = async(data, id, token) => {
+
+    const config = requestConfig("PUT", data, token);
+
+    try {
+        const res = await fetch(api + "/photos/" + id, config)
+                .then((res) => res.json())
+                .catch((err) => console.error("Erro na requisição put:", err));
+        return res;
+    } catch (error) {
+        console.log("Erro ao tentar atualizar:", error.message)
+    }
+
+};
+
 const photoService = {
     publishPhoto,
     getUserPhotos,
     deletePhoto,
+    updatePhoto,
 };
 
 export default photoService;
