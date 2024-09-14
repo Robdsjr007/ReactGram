@@ -1,0 +1,5 @@
+Bugs a serem corrigidos:
+
+Mensagem de duração infinita no edit profile
+Mensagem de foto salva com sucesso, ao cancelar update de titulo da photo
+Concertar a aparição de erro, só pode registrar imagem PNG, JPG e JPEG

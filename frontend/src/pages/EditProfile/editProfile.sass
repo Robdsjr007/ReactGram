@@ -13,7 +13,7 @@
     color: #ccc
 
 .profile-image
-    width: 150px
-    height: 150px
+    @include mixins.widthAndHeight(150px, 150px)
     border-radius: 50%
     margin-bottom: 1em
+    object-fit: cover
