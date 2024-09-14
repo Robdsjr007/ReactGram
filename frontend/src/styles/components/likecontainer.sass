@@ -1,0 +1,17 @@
+@use '../mixins'
+@use '../variables'
+
+.like
+    @include mixins.flexContent(flex, flex-start, center)
+    border-top: 1px solid variables.$border-color
+    border-bottom: 1px solid variables.$border-color
+
+    #home &
+        border: none
+
+    & svg
+        font-size: 1.5em
+        cursor: pointer
+
+    & p
+        margin-left: 1em

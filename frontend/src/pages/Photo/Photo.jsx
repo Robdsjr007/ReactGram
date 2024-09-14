@@ -12,9 +12,11 @@ import PhotoItem from '../../components/PhotoItem';
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useResetComponentMessage } from '../../hooks/useResetComponentMessage';
 
 // Redux
-import { getPhoto } from '../../slices/photoSlice';
+import { getPhoto, like } from '../../slices/photoSlice';
+import LikeContainer from '../../components/LikeContainer';
 
 
 const Photo = () => {
@@ -22,9 +24,11 @@ const Photo = () => {
 
     const dispatch = useDispatch();
 
-    const {user} = useSelector((state) => state.auth);
+    const resetMessage = useResetComponentMessage(dispatch);
 
-    const {photo, loading, error, message} = useSelector((state) => state.photo);
+    const { user } = useSelector((state) => state.auth);
+
+    const { photo, loading, error, message } = useSelector((state) => state.photo);
 
     // Comments
 
@@ -33,15 +37,26 @@ const Photo = () => {
         dispatch(getPhoto(id));
     }, [dispatch, id]);
 
-    // Like and comments
-    
-    if(loading) {
+    // Like
+    const handleLike = () => {
+        dispatch(like(photo._id));
+
+        resetMessage();
+    };
+
+
+    if (loading) {
         return <p>Carregando...</p>;
     }
 
     return (
         <div id="photo">
-             <PhotoItem photo={photo} />
+            <PhotoItem photo={photo} />
+            <LikeContainer photo={photo} user={user} handleLike={handleLike}/>
+            <div className="message-container">
+                {error && <Message msg={error} type="error"/>}
+                {message && <Message msg={message} type="success"/>}
+            </div>
         </div>
     )
 }
